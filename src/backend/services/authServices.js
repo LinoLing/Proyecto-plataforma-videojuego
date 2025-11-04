@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { hashPassword, comparePassword, generateToken } from "../utils/auth.js";
+import { PrismaClient } from '@prisma/client';
+import { hashPassword, comparePassword, generateToken } from '../utils/auth.js';
 
 const prisma = new PrismaClient();
 
@@ -23,7 +23,7 @@ export const authServices = {
         token,
       }
     } catch (error) {
-        throw new Error("Error al registrar usuario" + error);
+        throw new Error('Error al registrar usuario' + error);
     }
   },
 };
