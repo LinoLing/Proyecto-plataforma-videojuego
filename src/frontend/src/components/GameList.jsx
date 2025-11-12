@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:3000/api/games'; 
+import { useEffect, useState } from 'react';
+const API_URL = "http://localhost:3000/api/games";
 
 function GameList() {
     const [games, setGames] = useState([]);

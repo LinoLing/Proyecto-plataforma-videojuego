@@ -7,8 +7,9 @@ import session from 'express-session';
 import userRoutes from './routes/userRoutes.js';
 import emailRoutes from './routes/emailRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import gameRoutes from './routes/gameRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './swagger.js'; 
+import { swaggerSpec } from './swagger.js';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.get('/', (req, res) =>{
 app.use('/api/users',userRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/games', gameRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo y escuchando en el puerto ${PORT}`);
