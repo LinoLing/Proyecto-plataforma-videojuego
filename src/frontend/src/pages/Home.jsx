@@ -1,78 +1,108 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Frame from '../assets/Frame.png';
+import { useState, useEffect } from 'react'; 
+// Eliminamos la importación de Navbar, ya que se renderiza globalmente en App.jsx
+// RUTA CORREGIDA: Re-agregamos la extensión .jsx para solucionar el error de resolución.
+import GameCard from '../components/GameCard.jsx'; 
+
+// La URL se mantiene relativa
+const API_URL = '/api/games'; 
 
 function Home() {
-  const [token, setToken] = useState(null);
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  },
-    []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setToken(null);
-  };
-
-  return (
-    <div className='min-h-screen bg-[#1E293B] p-8'>
-      <header className="bg-[#0F172A] w-full py-4 shadow-md flex justify-between items-center px-12 fixed top-0 left-0 right-0 z-50">
-        <div className='flex items-center gap-3'>
-          <img src={Frame} alt='GameZone Logo' className='w-12 h-12 object-contain' />
-          <h1 className="font-audiowide text-4xl text-[#CBD5E1] tracking-wide">GameZone</h1>
-        </div>
-
+    // Función asíncrona para cargar los datos desde la API
+    const fetchGames = async () => {
+      try {
+        setLoading(true); // Inicia la carga
+        // Usamos fetch, corrigiendo el error potencial en el que GameList usaba 'axios' sin importar
+        const response = await fetch(API_URL);
         
-        <nav className="flex gap-10 font-exo2 text-5x1 font-semibold text-[#94A3B8] mr-8">
-          <Link to="/catalogo" className="hover:text-white transition-colors duration-200">
-             Catálogo
-          </Link>
-          <Link to="/marketplace" className="hover:text-white transition-colors duration-200">
-             Marketplace
-          </Link>
-          <Link to="/comunidad" className="hover:text-white transition-colors duration-200">
-            Comunidad
-          </Link>
-          <Link to="/novedades" className="hover:text-white transition-colors duration-200">
-             Novedades
-          </Link>
-        </nav>
+        if (!response.ok) {
+          // Si la respuesta no es 2xx, lanza un error
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Asumiendo que 'data' es un array de juegos
+        setGames(data); 
+        setError(null);
+      } catch (err) {
+        console.error("Error al obtener juegos:", err);
+        setError("No se pudieron cargar los juegos. Intenta de nuevo más tarde.");
+        setGames([]); // Limpia la lista en caso de error
+      } finally {
+        setLoading(false); // Finaliza la carga, ya sea con éxito o error
+      }
+    };
 
-        <div className="flex gap-5">
-          {!token ? (
-            <>
-              <Link
-                to="/login"
-                className="bg-[#0F172A] border border-[#334155] hover:border-white text-[#94A3B8] hover:text-white px-4 py-2 rounded-lg font-exo2 transition-all"
-              >
-                Iniciar sesión
-              </Link>
-              <Link
-                 to="/register"
-                 className="bg-[#1E293B] hover:bg-[#94A3B8] border border-[#CBD5E1] text-[#94A3B8] hover:text-[#0F172A] px-4 py-2 rounded-lg font-exo2 transition-all"
-              >
-                Registro
-              </Link>
-            </>
-          ) : (
-            <button
-              onClick={handleLogout}
-              className="bg-[#1E293B] hover:bg-[#0F172A] border border-[#94A3B8] hover:border-white text-[#94A3B8] hover:text-white px-4 py-2 rounded-lg font-exo2 transition-all"
-            >
-              Cerrar sesión
-            </button>
-          )}
-        </div>
+    fetchGames();
+  }, []); // El array vacío asegura que esto se ejecute solo una vez al montar el componente
 
-      </header>
-      {/* CONTENIDO */}
-      <main className="p-8 pt-24">
-        <h2 className="font-audiowide text-3xl text-orange-500 mb-4">
-          Bienvenido a mi página 🏡
+  // Renderizado condicional basado en el estado
+  
+  // 1. Mostrar estado de carga (mantenemos la estructura)
+  if (loading) {
+    return (
+      <div className='min-h-screen bg-[#1E293B] flex flex-col items-center justify-center pt-24'>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500"></div>
+        <p className="mt-4 font-exo2 text-xl text-[#94A3B8]">Cargando catálogo... ⏳</p>
+      </div>
+    );
+  }
+
+  // 2. Mostrar estado de error (mantenemos la estructura)
+  if (error) {
+    return (
+      <div className='min-h-screen bg-[#1E293B] flex flex-col items-center justify-center pt-24'>
+        <h2 className="font-audiowide text-3xl text-red-500 mb-4">¡Error!</h2>
+        <p className="font-exo2 text-lg text-[#94A3B8]">{error}</p>
+      </div>
+    );
+  }
+
+  // 3. Mostrar catálogo si no hay juegos (servidor responde OK, pero la lista está vacía)
+  if (games.length === 0) {
+    return (
+      <div className='min-h-screen bg-[#1E293B] p-4 md:p-8 pt-24 md:pt-28 lg:pt-32'>
+        <main className="text-center">
+            <h2 className="font-audiowide text-4xl text-orange-500 mb-8">Catálogo de Juegos Destacados</h2>
+            <p className="font-exo2 text-xl text-[#94A3B8]">No hay juegos disponibles en este momento. ¡Vuelve pronto! 💔</p>
+        </main>
+      </div>
+    );
+  }
+
+  // 4. Renderizado del catálogo (Juegos cargados con éxito)
+  return (
+    <div className='min-h-screen bg-[#1E293B]'>
+      
+      {/* CONTENIDO PRINCIPAL DE LA HOME */}
+      <main className="pt-24 md:pt-28 lg:pt-32 p-4 md:p-8">
+        {/* Adoptamos el título de tu GameList, pero con nuestro estilo */}
+        <h2 className="font-audiowide text-4xl lg:text-5xl text-orange-500 mb-10 text-center tracking-wider">
+          🎮 Catálogo de Juegos Destacados
         </h2>
+        
+        {/* CUADRÍCULA RESPONSIVA DE JUEGOS */}
+        {/* Adoptamos la clase 'container mx-auto' que sugeriste */}
+        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {games.map(game => (
+            // AQUI USAMOS LOS DATOS REALES RECIBIDOS DE LA API
+            <GameCard
+              key={game.id || game._id} 
+              gameId={game.id || game._id} 
+              title={game.title}
+              // Eliminamos el precio de la descripción aquí, ya que GameCard lo muestra por separado
+              description={`Género: ${game.gender || 'N/A'}`}
+              platform={game.gender || 'N/A'} 
+              imageUrl={game.image} 
+              price={game.price} // ¡Añadimos el precio como prop!
+            />
+          ))}
+        </div>
       </main>
     </div>
   );
