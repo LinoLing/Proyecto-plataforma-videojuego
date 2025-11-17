@@ -16,13 +16,12 @@ model User {
   googleId String? @unique //Metodo login con Google
   avatar String? //Obtener la foto de perfil
 }
-
-model Products {
+model Game {
   id Int @id @default(autoincrement())
-  title String
-  image String
-  gender String 
-  price Decimal?
+  title String?
+  image String?
+  gender String? 
+  price Float
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

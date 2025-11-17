@@ -29,9 +29,9 @@ function Home() {
         // Asumiendo que 'data' es un array de juegos
         setGames(data); 
         setError(null);
-      } catch (err) {
-        console.error("Error al obtener juegos:", err);
-        setError("No se pudieron cargar los juegos. Intenta de nuevo más tarde.");
+      } catch (error) {
+        console.error("Error al obtener juegos:", error.message);
+        setError(`No se pudieron cargar los juegos. Intenta de nuevo más tarde. Detalle: ${error.message || error}`);
         setGames([]); // Limpia la lista en caso de error
       } finally {
         setLoading(false); // Finaliza la carga, ya sea con éxito o error

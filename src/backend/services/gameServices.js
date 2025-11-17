@@ -6,7 +6,7 @@ export const gameServices = {
     async getGames() {
         try{
             return await prisma.game.findMany({
-                orderBy: { createdAt: 'desc'}
+                orderBy: { createAt: 'desc'}
             });
         }catch(error) {
             throw new Error('Error al obtener juegos: ' + error.message);
@@ -21,7 +21,7 @@ export const gameServices = {
                     title,
                     image,
                     gender,
-                    price: Decimal(price)
+                    price: parseFloat(price)
                 }
             });
         }catch(error){

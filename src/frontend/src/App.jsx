@@ -29,7 +29,7 @@ function App() {
             <Route path="/" element={<Home />} />
             
             {/* 2. Ruta dinámica de detalles - Permite ver un juego por su ID */}
-            <Route path="/game/:id" element={<GameDetail />} />
+            <Route path="/games/:id" element={<GameDetail />} />
             
             {/* Rutas de autenticación */}
             <Route path="/register" element={<Register />} />

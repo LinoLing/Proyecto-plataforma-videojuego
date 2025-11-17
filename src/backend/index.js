@@ -18,9 +18,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.urlencoded({extended:true}));
+
+app.use('/api/users',userRoutes);
+app.use('/api/email', emailRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/games', gameRoutes);
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -31,6 +35,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.get('/', (req, res) =>{
     res.json({
         message:'Api corriendo correctamente'
@@ -38,10 +44,7 @@ app.get('/', (req, res) =>{
 });
 
 //Rutas que deseo usar
-app.use('/api/users',userRoutes);
-app.use('/api/email', emailRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/games', gameRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo y escuchando en el puerto ${PORT}`);
