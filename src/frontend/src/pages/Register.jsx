@@ -40,13 +40,13 @@ function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
-        <h1 className="text-2xl font-bold text-center">Crear una cuenta</h1>
+    <div className="flex items-center justify-center min-h-screen bg-[#0F172A]">
+      <div className="w-full max-w-md p-8 space-y-6 bg-[#1E293B] border border-[#CBD5E1] rounded-xl shadow-md">
+        <h1 className="text-2xl font-audiowide text-center text-[#CBD5E1]">Crear una cuenta</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="name" className="block text-sm font-audiowide text-[#CBD5E1]">
               Nombre
             </label>
             <input
@@ -56,12 +56,12 @@ function Register() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 mt-1 bg-[#1E293B] border border-[#94A3B8] rounded-md shadow-sm focus:outline-none focus:ring-white focus:border-white"
             />
           </div>
           
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-audiowide text-[#CBD5E1]">
               Correo Electrónico
             </label>
             <input
@@ -71,12 +71,12 @@ function Register() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 mt-1 bg-[#1E293B] border border-[#94A3B8] rounded-md shadow-sm focus:outline-none focus:ring-white focus:border-white"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-audiowide text-[#CBD5E1]">
               Contraseña
             </label>
             <input
@@ -86,7 +86,7 @@ function Register() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 mt-1 bg-[#1E293B] border border-[#94A3B8] rounded-md shadow-sm focus:outline-none focus:ring-white focus:border-white"
             />
           </div>
 
@@ -96,16 +96,16 @@ function Register() {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 font-exo2 text-[#94A3B8] bg-[#1E293B] border border-[#CBD5E1] rounded-md shadow-sm hover:bg-[#94A3B8] hover:border-[#0F172A] hover:text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0F172A]"
             >
               Registrarse
             </button>
           </div>
         </form>
 
-        <p className="text-sm text-center text-gray-600">
+        <p className="text-sm text-center text-[#94A3B8]">
           ¿Ya tienes una cuenta?{' '}
-          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <Link to="/login" className="font-medium text-[#94A3B8] hover:text-[#C084FC]">
             Inicia sesión
           </Link>
         </p>

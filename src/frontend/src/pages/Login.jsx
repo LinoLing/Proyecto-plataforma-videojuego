@@ -27,7 +27,10 @@ function Login() {
     }
 
     localStorage.setItem("authToken", data.data.token);
-        navigate ("/login-success");
+      // Cambiar la redirección de "/login-success" a "/" o el catálogo,
+      // asumiendo que el catálogo es la página de inicio tras iniciar sesión.
+      // Si existe /login-success, mantenla.
+      navigate ("/login-success");
         
     } catch (err) {
         setError(err.message);
@@ -35,16 +38,21 @@ function Login() {
   };
   
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-x-6 bg-white rounded-xl shadow-md">
-        <h1 className="text-2xl font-bold text-center">Iniciar Sesion</h1>
+    // CAMBIO 1: Fondo oscuro similar al Home (bg-gray-800 o bg-gray-900 para ser más oscuro)
+    // El texto del div principal pasa a ser blanco (text-white)
+    <div className="flex items-center justify-center min-h-screen bg-[#0F172A] text-[#CBD5E1]">
+      {/* CAMBIO 2: Fondo del formulario en un color que contraste (ej. bg-gray-800 o mantener bg-white para claridad) */}
+      <div className="w-full max-w-md p-8 space-y-6 bg-[#1E293B] rounded-xl shadow-2xl shadow-black border border-[#CBD5E1]">
+        {/* CAMBIO 3: Título en color naranja/ámbar */}
+        <h1 className="text-3xl font-audiowide text-center text-[#CBD5E1]">Iniciar Sesión</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              // CAMBIO 4: Labels en color claro
+              className="block text-sm font-exo2 text-[#CBD5E1]"
             >
-              Correo Electronico
+              Correo Electrónico
             </label>
             <input
               id="email"
@@ -52,13 +60,15 @@ function Login() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              // CAMBIO 5: Inputs con fondo oscuro y borde claro para el tema
+              className="w-full px-3 py-2 mt-1 border border-[#94A3B8] bg-[#1E293B] text-[#CBD5E1] rounded-md shadow-md focus:outline-none focus:ring-white focus:border-white"
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              // CAMBIO 4: Labels en color claro
+              className="block text-sm font-exo2 text-[#CBD5E1]"
             >
               Contraseña
             </label>
@@ -68,42 +78,50 @@ function Login() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              // CAMBIO 5: Inputs con fondo oscuro y borde claro para el tema
+              className="w-full px-3 py-2 mt-1 border border-[#94A3B8] bg-[#1E293B] text-[#CBD5E1] rounded-md shadow-md focus:outline-none focus:ring-white focus:border-white"
             />
           </div>
-          {error && <p className="text-sm text-center text-red-500"></p>}
+          {error && <p className="text-sm text-center text-red-500">{error}</p>} 
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white font-medium bg-blue-500 border border-transparent rounded-md shadow-md hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 "
+              // CAMBIO 6: Botón principal en color naranja
+              className="w-full px-4 py-2 text-[#94A3B8] font-exo2 bg-[#1E293B] border border-[#94A3B8] hover:border-[#FFFFFF] hover:text-[#FFFFFF] rounded-md shadow-md hover:bg-[#0F172A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:ring-offset-gray-800"
             >
-              Iniciar Sesion
+              Iniciar Sesión
             </button>
           </div>
         </form>
         <div className="flex items-center">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-4 text-sm font-medium text-gray-500">O</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+          {/* CAMBIO 7: Separadores y texto 'O' en tonos de gris que contrasten */}
+          <div className="flex-grow border-t border-[#CBD5E1]"></div>
+          <span className="mx-4 text-sm font-exo2 text-[#CBD5E1]">O</span>
+          <div className="flex-grow border-t border-[#CBD5E1]"></div>
         </div>
         <div className="text-center">
           <a
-            className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-orange-500"
+            // CAMBIO 8: Botón de Google en azul, pero con hover naranja
+            className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-exo2 text-[#94A3B8] bg-[#1E293B] border border-[#94A3B8] hover:border-[#FFFFFF] hover:text-[#FFFFFF] rounded-md shadow-sm hover:bg-[#0F172A] transition duration-150 ease-in-out"
             href={GOOGLE_AUTH_URL}
           >
-            Iniciar sesion con Google
+            Iniciar sesión con Google
           </a>
         </div>
 
-        <p className="text-sm text-center text-gray-600">
+        {/* CAMBIO 9: Texto de "¿No tienes cuenta?" en gris claro */}
+        <p className="text-sm text-center text-[#94A3B8]">
           No tienes una cuenta?
         </p>
+        <div className="text-center">
         <Link
           to="/register"
-          className="font-medium text-blue-600 hover:text-orange-500"
+          // CAMBIO 10: Enlace de registro en color naranja
+          className="font-medium text-[#94A3B8] hover:text-[#C084FC] transition duration-150 ease-in-out"
         >
-          Registrate aqui
+          Regístrate aquí
         </Link>
+        </div>
       </div>
     </div>
   );
